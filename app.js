@@ -4,6 +4,7 @@ const audience=document.querySelector("#audience");
 const format=document.querySelector("#format");
 const sources=document.querySelector("#sources");
 const endpoint=document.querySelector("#api-endpoint");
+endpoint.value="https://melyqon-explain-api.melyqon.workers.dev/generate";
 const statusEl=document.querySelector("#status");
 const generateBtn=document.querySelector("#generate-btn");
 const empty=document.querySelector("#empty-state");
