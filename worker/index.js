@@ -42,8 +42,14 @@ Use plain language, avoid invented statistics/quotes/citations, state uncertaint
           generationConfig: { temperature: 0.55, maxOutputTokens: 2200 }
         })
       });
-      const payload = await upstream.json();
-      if (!upstream.ok) return json({ error: payload.error?.message || "Gemini API request failed" }, upstream.status);
+      const raw = await upstream.text();
+      let payload;
+      try { payload = JSON.parse(raw); }
+      catch {
+        const detail = raw.trim().slice(0, 180) || "Empty response";
+        return json({ error: "Gemini returned a non-JSON response (HTTP " + upstream.status + "): " + detail }, 502);
+      }
+      if (!upstream.ok) return json({ error: payload.error?.message || "Gemini API request failed (HTTP " + upstream.status + ")" }, upstream.status);
       const text = payload.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
       if (!text) return json({ error: "No text returned by the model" }, 502);
       return json({ text });
