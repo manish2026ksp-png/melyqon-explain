@@ -1,4 +1,4 @@
-const MODEL = "gemini-2.5-flash";
+const MODEL = "gemini-3.8-flash";
 const MAX_TOPIC = 240;
 const cors = {
   "Access-Control-Allow-Origin": "*",
