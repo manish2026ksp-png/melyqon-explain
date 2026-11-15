@@ -47,8 +47,10 @@ Use plain language, avoid invented statistics/quotes/citations, state uncertaint
       const text = payload.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
       if (!text) return json({ error: "No text returned by the model" }, 502);
       return json({ text });
-    } catch {
-      return json({ error: "Could not reach the AI provider" }, 502);
+    } catch (error) {
+      console.error("Gemini provider request failed:", error?.name || "Error", error?.message || "Unknown error");
+      const detail = String(error?.message || "Unknown network or response error").slice(0, 240);
+      return json({ error: "Gemini provider request failed: " + detail }, 502);
     }
   }
 };
