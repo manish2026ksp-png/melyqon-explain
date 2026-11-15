@@ -1,30 +1,31 @@
 # Melyqon Explain
 
-A lightweight, source-first explainer planning workspace for educators and technical creators.
+A lightweight explainer-writing workspace. The public website is static; optional AI generation runs through a small Cloudflare Worker so the Gemini API key is never placed in browser code.
 
-## What it does
+## Features
+- Topic-specific scripts for shorts, carousels and mini-lessons.
+- Audience-aware plain-language writing, narration beats and visual directions.
+- Editable output, copy and Markdown export.
+- Optional source references. The app does not fetch or verify those links.
 
-Enter a topic, choose an audience and output format, and create an editable explainer blueprint with:
-- A scene-by-scene structure for a 60-second short, a 6-slide carousel, or a 3-minute mini lesson.
-- Visual direction prompts for each scene.
-- A publishing caption draft.
-- A checklist for checking claims against sources.
-- Copy and Markdown export.
+## Deploy the AI endpoint (free-tier friendly)
+
+1. Create a Cloudflare Worker in the Cloudflare dashboard.
+2. Paste the code from `worker/index.js` into the Worker editor.
+3. In Worker Settings → Variables and Secrets, add a secret named `GEMINI_API_KEY` containing your Google AI Studio API key.
+4. Deploy the Worker and copy its URL.
+5. Open the public Melyqon Explain site, expand **AI connection**, paste the Worker URL ending in `/generate`, and generate.
+
+The Gemini key remains server-side as a Worker secret. Do not paste the key into this public GitHub repository or into the website. Cloudflare and Google may change free-tier limits; check their current quotas before production use.
+
+## Local use
+Open `index.html` in a modern browser. Without a Worker URL, the app displays a clearly labelled sample scaffold. With a Worker URL, it requests AI generation.
 
 ## Important limitations
+- The AI can make mistakes. Review all claims before publishing.
+- Supplied source URLs are passed as references in the prompt; the Worker does not browse, fetch, or verify them.
+- The Worker has basic input validation and CORS support. For a public production launch, add rate limiting and abuse protection.
+- No user account or database is required; generated drafts stay in the browser unless the user copies or exports them.
 
-This is a client-side drafting scaffold. It does **not** use an AI model, fetch or verify source URLs, or generate/render video. Add and check trusted sources yourself before publishing.
-
-## Run locally
-
-Open `index.html` in a modern browser. No build step, server, API key, database, or account is required.
-
-## Deploy
-
-This repository includes a GitHub Actions workflow that publishes the static site to GitHub Pages when changes are pushed to `main`.
-
-After the first workflow run, enable GitHub Pages in repository Settings → Pages → Build and deployment → Source: GitHub Actions if GitHub has not enabled it automatically.
-
-## Privacy
-
-The app does not send entered topics or source links to a backend. Content remains in the current browser page; it is not saved persistently.
+## Hosting
+GitHub Actions publishes the static app to GitHub Pages on pushes to `main`.
