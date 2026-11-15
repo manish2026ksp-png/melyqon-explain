@@ -34,9 +34,9 @@ Include: one-sentence takeaway; timed narration beats or slide copy; concrete vi
 Use plain language, avoid invented statistics/quotes/citations, state uncertainty, and output Markdown only. If no sources are supplied, suggest trustworthy primary-source organisations and search phrases, not fabricated URLs. Do not claim to have browsed or verified anything.`;
 
     try {
-      const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${env.GEMINI_API_KEY}`, {
+      const upstream = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: { temperature: 0.55, maxOutputTokens: 2200 }
