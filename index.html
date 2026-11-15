@@ -30,12 +30,18 @@
         </div>
         <label for="sources">Your source links <span class="optional">optional · one per line</span></label>
         <textarea id="sources" rows="3" placeholder="https://...&#10;https://..."></textarea>
-        <p class="hint">Add sources you trust. This MVP does not fetch or verify webpages; it keeps your references attached to the brief.</p>
-        <button class="primary" type="submit">Build my explainer <span aria-hidden="true">↗</span></button>
+        <details class="api-settings">
+          <summary>AI connection <span class="optional">one-time setup</span></summary>
+          <label for="api-endpoint">Cloudflare Worker URL</label>
+          <input id="api-endpoint" type="url" placeholder="https://your-worker.your-subdomain.workers.dev/generate">
+          <p class="hint">Your Gemini API key stays on the Worker, not in this public website. Leave blank to use the built-in sample draft.</p>
+        </details>
+        <p id="status" class="hint" role="status">AI mode is not connected yet. Add your Worker URL to enable live generation.</p>
+        <button class="primary" id="generate-btn" type="submit">Build my explainer <span aria-hidden="true">↗</span></button>
       </form>
       <section class="output-panel" aria-live="polite">
         <div class="panel-heading"><div><p class="eyebrow">02 / YOUR STORY</p><h2>Explainer blueprint</h2></div><span class="step">OUTPUT</span></div>
-        <div id="empty-state" class="empty-state"><div class="empty-icon">✳</div><h3>Your next clear idea starts here.</h3><p>Add a topic and build an editable first draft. Nothing is sent to a server.</p></div>
+        <div id="empty-state" class="empty-state"><div class="empty-icon">✳</div><h3>Your next clear idea starts here.</h3><p>Add a topic. Connect your private AI Worker for a complete, topic-specific script.</p></div>
         <div id="result" class="result hidden">
           <div class="result-actions"><span class="draft-label">EDITABLE FIRST DRAFT</span><button id="copy-btn" class="quiet" type="button">Copy brief</button><button id="download-btn" class="quiet" type="button">Export .md</button></div>
           <div id="blueprint" contenteditable="true" spellcheck="true" class="blueprint"></div>
